@@ -1,0 +1,16 @@
+# Configuration for Latency-Aware Hybrid Serving & Acceleration (Section 4.4)
+online_service:
+  target_sla_ms: 10.0                      # Max acceptable online latency (<10ms)
+  cache_type: "redis_in_memory"
+  candidate_ttl_seconds: 86400             # 24 hours
+
+nearline_service:
+  beam_size: 8                             # Constrained beam search size B
+  num_arpu_buckets: 25                     # 25 user groups for Adaptive Resource Distribution
+  min_arpu_threshold: 0.0                  # Prioritize nearline GPU inference for high-value users
+
+acceleration:
+  engine: "TensorRT-LLM"                   # or vLLM
+  quantization: "SmoothQuant_w8a8c8"       # or FP8 on modern GPUs
+  softmax_optimization: "float4_vectorized"
+  finalize_optimization: "block_per_beam"

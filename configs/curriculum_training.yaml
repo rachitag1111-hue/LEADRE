@@ -1,0 +1,21 @@
+# Configuration for 3-Stage Curriculum Fine-Tuning (Section 4.3.1 & Section 5.1.3)
+model:
+  base_model: "Qwen/Qwen2.5-1.5B-Instruct"  # or meta-llama/Llama-3.2-1B-Instruct
+  max_prompt_length: 2096                    # Maximum token length as specified in Section 5.1.1
+  soft_prompt_token: "<Learnable Token>"     # Learnable soft prompt token
+
+optimizer:
+  name: "AdamW"
+  learning_rate: 6.0e-5                      # Learning rate from Section 5.1.3
+  min_learning_rate: 6.0e-6                  # Cosine min LR
+  weight_decay: 0.9                          # Weight decay from paper
+  batch_size: 64                             # Effective batch size with gradient accumulation
+  epochs_per_stage: 3                        # 3 epochs per stage to avoid overfitting
+
+curriculum_order:
+  - stage: "Stage1_Explicit_Alignment"
+    desc: "Ad Text Description -> S-ID"
+  - stage: "Stage2_Implicit_Alignment"
+    desc: "User Interaction Sequence with Text Descriptions -> Next Ad S-ID"
+  - stage: "Stage3_Main_Generation"
+    desc: "Full Intent-Aware Prompt with S-IDs -> Next Ad S-ID"

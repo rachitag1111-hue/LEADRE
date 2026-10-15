@@ -1,0 +1,8 @@
+# Configuration for Direct Preference Optimization (DPO) Business Alignment (Section 4.3.2)
+dpo:
+  beta: 0.1                                # DPO temperature scaling factor
+  learning_rate: 1.0e-6                    # Fine-tuning LR for policy alignment
+  epochs: 2
+  batch_size: 16
+  reference_model_stage: "Stage3_Main"     # pi_ref comes from the output of Stage 3
+  preference_metric: "ECPM"                # Expected Cost Per Mille from ranking stage
